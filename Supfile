@@ -9,6 +9,9 @@ env:
   CONTAINER_PORT: 5432
 
 networks:
+  local:
+    hosts:
+      - localhost
   production:
     hosts:
       - root@162.243.9.244
