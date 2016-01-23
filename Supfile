@@ -1,0 +1,47 @@
+# Postgres
+---
+version: 0.3
+
+env:
+  NAME: postgres
+  IMAGE: postgres
+  HOST_PORT: 5432
+  CONTAINER_PORT: 5432
+
+networks:
+  production:
+    hosts:
+      - root@162.243.9.244
+
+commands:
+  ping:
+    desc: Print uname and current date/time.
+    run: uname -a; date
+
+  ps:
+    desc: List running Docker containers
+    run: docker ps | grep $NAME
+
+  run:
+    desc: Run docker container
+    run: echo TODO || docker run -d -p $HOST_PORT:$CONTAINER_PORT -v /mnt/postgres:/var/lib/postgresql/data --restart=always --name postgres -e POSTGRES_PASSWORD=testme postgres
+
+  start:
+    desc: Start docker container
+    run: docker start postgres
+
+  stop:
+    desc: Stop docker container
+    run: docker stop postgres
+
+  restart:
+    desc: Restart docker container
+    run: docker restart postgres
+
+  rm:
+    desc: Remove docker container
+    run: echo TODO || docker rm postgres
+
+  psql:
+    desc: Open psql client
+    run: docker run -it --rm --link postgres:postgres postgres sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres'
